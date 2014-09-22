@@ -18,15 +18,11 @@ module.exports = function(grunt)
 			options: {
 				force: true
 			},
+			js:    ["dist/assets/js/"],
+			css:   ["dist/assets/css/"],
 			assets: [
 				"dist/assets/*",
 				"!dist/assets/.gitignore"
-			],
-			js: [
-				'dist/assets/js/'
-			],
-			css: [
-				'dist/assets/css/'
 			]
 		},
 
