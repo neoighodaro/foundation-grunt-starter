@@ -10,18 +10,45 @@ module.exports = function(grunt)
 		pkg: grunt.file.readJSON('package.json'),
 
 		// --------------------------------------
-		// Uglify Configuration
+		// Clean Configuration
 		// --------------------------------------
 
-		uglify: {
+		clean: {
+			options: {
+				force: true
+			},
+			assets: [
+				"dist/assets/*",
+				"!dist/assets/.gitignore"
+			],
+			js: [
+				'dist/assets/js/'
+			]
+		},
+
+		// --------------------------------------
+		// Sass Configuration
+		// --------------------------------------
+
+		sass: {
+			options: {
+				loadPath: ['bower_components/foundation/scss']
+			},
 			dist: {
-				files: {
-					'dist/assets/js/jquery.min.js': ['bower_components/jquery/dist/jquery.js'],
-					'dist/assets/js/modernizr.min.js': ['dist/assets/js/modernizr.js'],
-					'dist/assets/js/script.min.js': ['dist/assets/js/script.js']
-				}
+				options: {
+					sourcemap: 'none',
+					style: 'nested'
+				},
+				files: [{
+					expand: true,
+					cwd: 'develop/scss',
+					src: ['*.scss'],
+					dest: 'dist/assets/css',
+					ext: '.css'
+				}]
 			}
 		},
+
 
 		// --------------------------------------
 		// Concatenate Configuration
@@ -52,6 +79,20 @@ module.exports = function(grunt)
 		},
 
 		// --------------------------------------
+		// Uglify Configuration
+		// --------------------------------------
+
+		uglify: {
+			dist: {
+				files: {
+					'dist/assets/js/jquery.min.js': ['bower_components/jquery/dist/jquery.js'],
+					'dist/assets/js/modernizr.min.js': ['dist/assets/js/modernizr.js'],
+					'dist/assets/js/script.min.js': ['dist/assets/js/script.js']
+				}
+			}
+		},
+
+		// --------------------------------------
 		// Watch Configuration
 		// --------------------------------------
 
@@ -67,29 +108,6 @@ module.exports = function(grunt)
 				files: 'develop/js/**/*.js',
 				tasks: ['buildJs']
 			}
-		},
-
-		// --------------------------------------
-		// Sass Configuration
-		// --------------------------------------
-
-		sass: {
-			options: {
-				loadPath: ['bower_components/foundation/scss']
-			},
-			dist: {
-				options: {
-					sourcemap: 'none',
-					style: 'nested'
-				},
-				files: [{
-					expand: true,
-					cwd: 'develop/scss',
-					src: ['*.scss'],
-					dest: 'dist/assets/css',
-					ext: '.css'
-				}]
-			}
 		}
 
 	});
@@ -100,6 +118,7 @@ module.exports = function(grunt)
 	// -----------------------------------------
 
 	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -110,6 +129,6 @@ module.exports = function(grunt)
 	// -----------------------------------------
 
 	grunt.registerTask('buildCss', ['sass']);
-	grunt.registerTask('buildJs',  ['concat', 'uglify']);
-	grunt.registerTask('default',  ['buildCss', 'buildJs', 'watch']);
+	grunt.registerTask('buildJs',  ['clean:js', 'concat', 'uglify']);
+	grunt.registerTask('default',  ['clean', 'buildCss', 'buildJs', 'watch']);
 }
