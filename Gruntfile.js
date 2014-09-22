@@ -109,6 +109,22 @@ module.exports = function(grunt)
 
 
 		// --------------------------------------
+		// Image minify Configuration
+		// --------------------------------------
+
+		imagemin: {
+			dynamic: {
+				files: [{
+					expand: true,
+					cwd:  'develop/img/',
+					src:  ['**/*.{png,jpg,gif}'],
+					dest: 'dist/assets/img/'
+				}]
+			}
+		},
+
+
+		// --------------------------------------
 		// Watch Configuration
 		// --------------------------------------
 
@@ -123,6 +139,11 @@ module.exports = function(grunt)
 			script: {
 				files: 'develop/js/**/*.js',
 				tasks: ['buildJs']
+			},
+
+			images: {
+				files: 'develop/img/**/*.{png,jpg,gif}',
+				tasks: ['buildImg']
 			}
 		}
 
@@ -141,13 +162,14 @@ module.exports = function(grunt)
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	// -----------------------------------------
 	// Register Grunt tasks
 	// -----------------------------------------
 
+	grunt.registerTask('buildImg', ['newer:imagemin']);
 	grunt.registerTask('buildCss', ['clean:css', 'sass', 'cssmin']);
 	grunt.registerTask('buildJs',  ['clean:js', 'concat', 'uglify']);
-	grunt.registerTask('default',  ['clean', 'buildCss', 'buildJs', 'watch']);
+	grunt.registerTask('default',  ['clean', 'buildCss', 'buildJs', 'buildImg', 'watch']);
 }
