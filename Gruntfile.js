@@ -23,6 +23,9 @@ module.exports = function(grunt)
 			],
 			js: [
 				'dist/assets/js/'
+			],
+			css: [
+				'dist/assets/css/'
 			]
 		},
 
@@ -46,6 +49,19 @@ module.exports = function(grunt)
 					dest: 'dist/assets/css',
 					ext: '.css'
 				}]
+			}
+		},
+
+
+		// --------------------------------------
+		// CSS Minify Configuration
+		// --------------------------------------
+
+		cssmin: {
+			combine: {
+				files: {
+					'dist/assets/css/style.min.css': ['dist/assets/css/style.css']
+				}
 			}
 		},
 
@@ -121,6 +137,7 @@ module.exports = function(grunt)
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 
@@ -128,7 +145,7 @@ module.exports = function(grunt)
 	// Register Grunt tasks
 	// -----------------------------------------
 
-	grunt.registerTask('buildCss', ['sass']);
+	grunt.registerTask('buildCss', ['clean:css', 'sass', 'cssmin']);
 	grunt.registerTask('buildJs',  ['clean:js', 'concat', 'uglify']);
 	grunt.registerTask('default',  ['clean', 'buildCss', 'buildJs', 'watch']);
 }
