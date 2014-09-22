@@ -9,6 +9,7 @@ module.exports = function(grunt)
 		// Load package.json file
 		pkg: grunt.file.readJSON('package.json'),
 
+
 		// --------------------------------------
 		// Clean Configuration
 		// --------------------------------------
@@ -28,6 +29,7 @@ module.exports = function(grunt)
 				'dist/assets/css/'
 			]
 		},
+
 
 		// --------------------------------------
 		// Sass Configuration
@@ -94,6 +96,7 @@ module.exports = function(grunt)
 			}
 		},
 
+
 		// --------------------------------------
 		// Uglify Configuration
 		// --------------------------------------
@@ -107,6 +110,7 @@ module.exports = function(grunt)
 				}
 			}
 		},
+
 
 		// --------------------------------------
 		// Watch Configuration
@@ -126,6 +130,7 @@ module.exports = function(grunt)
 			}
 		}
 
+
 	});
 
 
@@ -133,6 +138,7 @@ module.exports = function(grunt)
 	// Load Grunt tasks
 	// -----------------------------------------
 
+	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
